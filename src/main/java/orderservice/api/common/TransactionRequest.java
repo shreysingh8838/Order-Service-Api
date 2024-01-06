@@ -11,5 +11,5 @@ import orderservice.api.entity.Order;
 public class TransactionRequest {
 
     private Order order;
-    private PaymentDTO paymentDTO;
+    private Payment payment;
 }

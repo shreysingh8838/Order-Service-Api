@@ -1,9 +1,7 @@
 package orderservice.api.controller;
 
-import orderservice.api.common.PaymentDTO;
 import orderservice.api.common.TransactionRequest;
 import orderservice.api.common.TransactionResponse;
-import orderservice.api.entity.Order;
 import orderservice.api.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +18,6 @@ public class OrderController {
 
     @PostMapping("/bookOrder")
     public TransactionResponse bookOrder(@RequestBody TransactionRequest request){
-        orderService.saveOrder(request);
-        return null;
+        return orderService.saveOrder(request);
     }
 }

@@ -1,6 +1,5 @@
 package orderservice.api.common;
 
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaymentDTO {
+public class Payment {
     private int paymentID;
     private String paymentStatus;
     private String transactionId;

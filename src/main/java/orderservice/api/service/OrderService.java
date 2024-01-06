@@ -1,11 +1,13 @@
 package orderservice.api.service;
 
-import orderservice.api.common.PaymentDTO;
+import orderservice.api.common.Payment;
 import orderservice.api.common.TransactionRequest;
+import orderservice.api.common.TransactionResponse;
 import orderservice.api.entity.Order;
 import orderservice.api.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 public class OrderService {
@@ -13,13 +15,23 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public Order saveOrder(TransactionRequest request){
+    @Autowired
+    private RestTemplate restTemplate;
+    public TransactionResponse saveOrder(TransactionRequest request){
+        String response = "";
         Order order = request.getOrder();
-        PaymentDTO paymentDTO = request.getPaymentDTO();
-        paymentDTO.setOrderId(order.getId());
-        paymentDTO.setAmount(order.getPrice());
+        Payment payment = request.getPayment();
+        payment.setOrderId(order.getId());
+        payment.setAmount(order.getPrice());
 
         // do a rest api call to payment and pass the orderid
-        return orderRepository.save(order);
+        Payment paymentResponse =
+                restTemplate.postForObject("http://localhost:9191/payment/doPayment", payment, Payment.class);
+        response = paymentResponse.getPaymentStatus().equals("success") ? "Payment processing successful and order is placed" : "There is a failure in payment api, order not placed";
+
+        if(paymentResponse.getPaymentStatus().equals("success")) {
+            orderRepository.save(order);
+        }
+        return new TransactionResponse(order, paymentResponse.getAmount(), paymentResponse.getTransactionId(), response);
     }
 }

@@ -10,6 +10,7 @@ import orderservice.api.entity.Order;
 @AllArgsConstructor
 public class TransactionResponse {
     private Order order;
-    private int amount;
+    private double amount;
     private String transactionId;
+    private String response;
 }
