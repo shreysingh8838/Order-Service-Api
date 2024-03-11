@@ -26,7 +26,7 @@ public class OrderService {
 
         // do a rest api call to payment and pass the orderid
         Payment paymentResponse =
-                restTemplate.postForObject("http://localhost:9191/payment/doPayment", payment, Payment.class);
+                restTemplate.postForObject("http://PAYMENT-SERVICE/payment/doPayment", payment, Payment.class);
         response = paymentResponse.getPaymentStatus().equals("success") ? "Payment processing successful and order is placed" : "There is a failure in payment api, order not placed";
 
         if(paymentResponse.getPaymentStatus().equals("success")) {

@@ -1,5 +1,5 @@
 server:
-  port: 9192
+  port: 9193
 spring:
   h2:
     console:
@@ -11,3 +11,14 @@ spring:
     password:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+  application:
+    name: ORDER-SERVICE
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
